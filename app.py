@@ -1,42 +1,93 @@
+# chainlit
 import chainlit as cl
-import faiss
-from langchain_community.docstore.in_memory import InMemoryDocstore
+
+# RAG
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_ollama import OllamaEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+# Langchain+MCP
+from langchain.tools import tool
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_ollama.chat_models import ChatOllama
-from langchain_ollama import OllamaEmbeddings
 from langchain.agents import create_agent
 
 
-LLM_MODEL = "llama3.1:latest"
-SYSTEM_PROMPT = """你是一個嚴格遵守流程的專業助理，請「一步一步」完成任務。
-【強制規則（不可違反）】
-1. 任何情況下，只要使用者的需求涉及「天氣」，
-   你必須【先】呼叫 weather MCP tool 查詢天氣。
+LLM_MODEL = "qwen3:8b"
+SYSTEM_PROMPT = """你是專業的樂園營運決策助手。你的職責是根據天氣狀況和營運手冊提供精確的營運建議。
 
-【決策規則（必須遵守）】
-- 若 用戶指令有包括『晴天』相關訊息 = 你必須呼叫 push_sunny_message
-- 若 用戶指令有包括『雨天』相關訊息 = 你必須呼叫 push_rainy_message
-- 若 用戶指令有包括『颱風』相關訊息 = 你必須呼叫 push_typhoon_message
-- 不得自行生成推播內容，必須實際呼叫對應 MCP tool
+【工作流程】
+1. 接收到用戶詢問後，先分析是否涉及天氣
+2. 如涉及天氣，使用 Weather Tool 查詢即時天氣資料
+3. 使用 search_knowledge_base 工具查詢營運手冊中的相關規則
+4. 根據查詢結果，綜合天氣資料和營運規則，提供明確的決策建議
+5. 如需推播通知，調用對應的 LINE Notify 工具
+6. 推播成功後 回答已推播的LINE Notify MCP Tool
+6.1【回答格式】：已成功推播『晴天/雨天/颱風』通知
 
-【禁止事項】
-- 不得假設推送成功
-- 不得自行輸出「已推送」之類的文字
-- 在 MCP tool 呼叫完成後，向用戶說明呼叫了哪個MCP Tool。
+【決策規則】
+- 晴天：調用 push_sunny_message
+- 雨天：調用 push_rainy_message  
+- 颱風：調用 push_typhoon_message
 
-請嚴格依照以上規則執行。
+【回答格式】
+1. 當前天氣狀況（如已查詢）
+2. 風險等級
+3. 需要關閉的設施（具體列出）
+4. 可以開放的設施（具體列出）
+5. 營運建議說明
+6. 是否需要推播（需人為確認）
+
+【重要原則】
+- 所有建議僅供參考，實際執行需經樂園經理確認
+- 不得假設工具調用成功，必須等待實際結果
+- 回答要精確、專業、有依據
 """
 
 # ========== RAG ==========
 
-# file_path = "./example_data/layout-parser-paper.pdf"
-# loader = PyPDFLoader(file_path)
+file_path = "./樂園營運手冊Ver2.pdf"
+loader = PyPDFLoader(file_path)
 
-# embeddings = OllamaEmbeddings(
-#     model="nomic-embed-text:latest",
-# )
+docs = loader.load()
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=400, chunk_overlap=150, add_start_index=True
+)
+texts = text_splitter.split_documents(docs)
+
+
+embeddings = OllamaEmbeddings(
+    model="nomic-embed-text:latest",
+)
+
+vector_store = FAISS.from_documents(
+    documents=texts,
+    embedding=embeddings,
+)
+
+
+@tool
+def search_knowledge_base(query: str) -> str:
+    """搜索樂園營運手冊知識庫，查詢不同天氣條件下的設施營運規則和決策建議。
+
+    使用時機：
+    - 需要了解特定天氣下的營運規則
+    - 查詢哪些設施需要關閉或開放
+    - 了解風險等級和營運決策說明
+
+    Args:
+        query: 搜索問題，例如「晴天的營運規則」、「雨天時哪些設施要關閉」
+
+    Returns:
+        相關的營運規則和決策建議，包含設施清單、風險等級、營運說明
+    """
+    docs = vector_store.similarity_search(query, k=3)
+
+    return "\n\n".join(
+        f"【來源 {i+1}】\n{doc.page_content}" for i, doc in enumerate(docs)
+    )
 
 
 # LLM
@@ -62,22 +113,44 @@ client = MultiServerMCPClient(
 
 @cl.on_chat_start
 async def on_chat_start():
-    await cl.Message(content="test").send()
+    welcome_message = """
+    **歡迎使用樂園營運決策助手系統**
+    我可以協助您：
+    A.查詢即時天氣資訊
+    B.根據天氣提供設施營運建議
+    C.推播營運決策通知（需確認）
+
+    **使用方式：**
+    1. 直接詢問天氣狀況 例如：「現在台北的天氣如何？」
+    2. 詢問特定天氣的營運規則 例如：「雨天時哪些設施要關閉？」
+    3. 請求綜合建議 例如：「根據目前天氣，給我營運建議」
+    4. 推播LINE Notify通知
+
+    **重要提醒：**
+    所有營運決策建議僅供參考 實際執行需經樂園經理確認。
+    """
+    await cl.Message(content=welcome_message).send()
 
 
 @cl.on_message
 async def on_message(message: cl.Message):
-    # 3️⃣ 取得 tools
+
+    ui_msg = cl.Message(content="")
+    await ui_msg.send()
+
+    # 取得 tools
     tools = await client.get_tools()
-    # 4️⃣ 建立 agent
+    tools.append(search_knowledge_base)
+    # 建立 agent
     agent = create_agent(model, tools, system_prompt=SYSTEM_PROMPT)
-    # 5️⃣ 呼叫 agent
-    response = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": message.content}]}
-    )
 
-    data = response["messages"][-1].content
+    # 調用 agent（使用 stream 進行流式輸出）
+    async for token, metadata in agent.astream(
+        {"messages": [{"role": "user", "content": message.content}]},
+        stream_mode="messages",
+    ):
+        # LLM 文字
+        if metadata.get("langgraph_node") == "model":
+            await ui_msg.stream_token(token.text)
 
-    print("data", data)
-    print("Response:", response)
-    await cl.Message(content=data).send()
+    await ui_msg.update()
