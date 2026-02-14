@@ -1,0 +1,19 @@
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+mcp_servers/__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Generated data
+faiss_index/
+
+# Chainlit cache
+.chainlit/
+.files/
