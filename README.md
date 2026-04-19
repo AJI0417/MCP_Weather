@@ -51,11 +51,11 @@ pip install -r requirements.txt
 
 ```env
 # 氣象署 Open Data API Key
-Weather_API_KEY=您的_CWA_API_KEY
+Weather_API_KEY="您的_CWA_API_KEY"
 
 # LINE Messaging API 設定
-CHANNEL_ACCESS_TOKEN=您的_LINE_ACCESS_TOKEN
-CHANNEL_SECRET=您的_LINE_SECRET
+CHANNEL_ACCESS_TOKEN="您的_LINE_ACCESS_TOKEN"
+CHANNEL_SECRET="您的_LINE_SECRET"
 ```
 
 ### 5. 準備營運手冊
