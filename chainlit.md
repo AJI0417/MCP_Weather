@@ -1,32 +1,14 @@
-# 🏰 樂園營運決策助手
+# Welcome to Chainlit! 🚀🤖
 
-Hi！我是你的專屬樂園營運決策助手。我可以協助你根據天氣狀況，快速做出最精準的營運判斷！
+Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
 
----
+## Useful Links 🔗
 
-### ✨ 我能做什麼？
+- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
+- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
 
-*   **🌦️ 即時天氣查詢**: 快速獲取指定地區的最新天氣預報。
-*   **📖 營運規則查詢**: 根據您的《樂園營運手冊》，查詢不同天氣下的設施營運規範。
-*   **🤔 綜合營運決策**: 結合即時天氣與營運手冊，提供一份完整的營運決策報告。
-*   **📢 LINE 推播通知**: 將重要的營運決策，一鍵推播給所有相關人員！
+We can't wait to see what you create with Chainlit! Happy coding! 💻😊
 
----
+## Welcome screen
 
-### 🚀 如何使用我？
-
-您可以直接在下方的對話框，用自然語言和我對話。試試看這樣問：
-
-*   **想知道現在天氣？**
-    > "現在霧峰區的天氣怎麼樣？"
-
-*   **想查詢營運規則？**
-    > "如果刮颱風，哪些設施需要關閉？"
-
-*   **需要完整的營運建議？**
-    > "根據目前天氣，請給我一份營運決策報告。"
-
-*   **準備發送推播通知？**
-    > "幫我發送『雨天』天氣通知。"
-
-準備好了嗎？讓我們一起讓樂園的每一天都充滿秩序與歡樂吧！
+To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.

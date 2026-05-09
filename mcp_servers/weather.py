@@ -50,20 +50,14 @@ def getWeather(LocationName: str = "霧峰區") -> list:
             time_info["StartTime"] = first_record["StartTime"]
             time_info["EndTime"] = first_record["EndTime"]
 
-    # 整理成陣列
+    # 整理成精簡結果
     result = {
         "location": LocationName,
-        "time": {
-            "start": time_info["StartTime"],
-            "end": time_info["EndTime"],
-        },
-        "raw": {
-            "溫度": parsed_data["溫度"],
-            "體感溫度": parsed_data["體感溫度"],
-            "3小時降雨機率": parsed_data["3小時降雨機率"],
-            "天氣現象": parsed_data["天氣現象"],
-            "天氣預報綜合描述": parsed_data["天氣預報綜合描述"],
-        },
+        "time": f"{time_info['StartTime']} ~ {time_info['EndTime']}",
+        "溫度": parsed_data["溫度"],
+        "體感溫度": parsed_data["體感溫度"],
+        "降雨機率": parsed_data["3小時降雨機率"],
+        "天氣現象": parsed_data["天氣現象"],
     }
 
     return result
