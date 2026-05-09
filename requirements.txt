@@ -2,7 +2,11 @@ chainlit
 langchain
 langchain-community
 <<<<<<< HEAD
+<<<<<<< HEAD
 langchain-google-genai
+=======
+langchain-ollama
+>>>>>>> 67b7abdcdd8ed79b45fa4cef461cc01cced1c1e3
 =======
 langchain-ollama
 >>>>>>> 67b7abdcdd8ed79b45fa4cef461cc01cced1c1e3
