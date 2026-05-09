@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import chainlit as cl
 from ai.agent import create_my_agent
 from langchain_core.messages import AIMessageChunk, ToolMessage
@@ -63,7 +61,6 @@ async def on_message(message: cl.Message):
                     
     ui_msg.content = final_text
     await ui_msg.update()
-=======
 import chainlit as cl
 from ai.agent import create_my_agent
 
@@ -108,8 +105,6 @@ async def on_message(message: cl.Message):
             await ui_msg.stream_token(chunk.text)
 
     await ui_msg.update()
->>>>>>> 67b7abdcdd8ed79b45fa4cef461cc01cced1c1e3
-=======
 import chainlit as cl
 from ai.agent import create_my_agent
 
@@ -154,4 +149,3 @@ async def on_message(message: cl.Message):
             await ui_msg.stream_token(chunk.text)
 
     await ui_msg.update()
->>>>>>> 67b7abdcdd8ed79b45fa4cef461cc01cced1c1e3
