@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # 🏰 樂園營運決策助手 (Park Operation Decision Assistant)
 
 這是一個基於 **LangChain**、**Ollama (Qwen 3.5)** 與 **MCP (Model Context Protocol)** 架構開發的智慧營運系統。它能結合即時天氣數據與樂園營運手冊（RAG），為管理人員提供精準的設施運行建議，並能一鍵推播通知至 LINE。
