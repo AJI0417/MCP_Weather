@@ -13,6 +13,7 @@ CHANNEL_ACCESS_TOKEN = os.getenv("CHANNEL_ACCESS_TOKEN")
 CHANNEL_SECRET = os.getenv("CHANNEL_SECRET")
 USER_ID = os.getenv("LINE_USER_ID")
 LINE_API_BASE = "https://api.line.me/v2/bot"
+api_key = os.getenv("_API_KEY")
 now = datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))) #new
 
 
@@ -172,7 +173,7 @@ def push_rainy_message():
 
 
 def get_uv_cwa():
-    url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0005-001?Authorization="
+    url = f"https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0005-001?Authorization={api_key}"
 
     try:
         res = requests.get(url)
