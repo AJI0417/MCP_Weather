@@ -172,7 +172,7 @@ def push_rainy_message():
 
 
 def get_uv_cwa():
-    url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0005-001?Authorization=CWA-ECAB75AF-4947-49D1-B5BA-43FF0C40B8CA"
+    url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0005-001?Authorization="
 
     try:
         res = requests.get(url)
