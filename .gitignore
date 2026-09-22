@@ -1,0 +1,25 @@
+# API keys and local environment variables used by config.py
+.env
+.env.*
+!.env.example
+
+# Project virtual environment
+.venv/
+
+# Python runtime cache
+__pycache__/
+*.py[cod]
+
+# RAG index generated from 樂園營運手冊Ver4.md
+faiss_index/
+
+# Chainlit-generated configuration and uploaded files
+.chainlit/
+.files/
+
+# SQLite runtime database initialized by server.py
+db/cyut_park.db
+db/cyut_park.db-*
+
+# Runtime logs
+*.log
