@@ -1,0 +1,238 @@
+:root {
+  --page-bg: #f3f7fb;
+  --surface: rgba(255, 255, 255, 0.94);
+  --navy: #12263f;
+  --muted: #64748b;
+  --line: #dce7f1;
+  --accent: #0f8ea0;
+  --accent-soft: #e6f7f9;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--navy);
+  background:
+    radial-gradient(circle at 90% 5%, rgba(47, 164, 181, 0.14), transparent 26rem),
+    linear-gradient(180deg, #f8fbfe 0%, var(--page-bg) 100%);
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+}
+
+.top-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #0f8ea0, #58c7c5, #2b6cb0);
+}
+
+.page-shell {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.page-title {
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
+
+.page-subtitle {
+  color: var(--muted);
+}
+
+.status-overview {
+  color: #0d6672;
+  background: var(--accent-soft);
+  border: 1px solid #c9edf0;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.45rem;
+  background: #16a085;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(22, 160, 133, 0.12);
+}
+
+.management-card {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid rgba(203, 216, 228, 0.85);
+  border-radius: 1.25rem;
+  box-shadow: 0 18px 50px rgba(30, 60, 90, 0.08);
+}
+
+.toolbar {
+  border-bottom: 1px solid var(--line);
+}
+
+.form-select:focus {
+  border-color: #60b7c4;
+  box-shadow: 0 0 0 0.2rem rgba(15, 142, 160, 0.12);
+}
+
+.category-select {
+  min-width: 220px;
+}
+
+.result-count {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.facility-table {
+  margin-bottom: 0;
+  --bs-table-bg: transparent;
+}
+
+.facility-table thead th {
+  padding: 0.95rem 1.25rem;
+  color: #65768a;
+  background: #f7fafc;
+  border-bottom-color: var(--line);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.facility-table tbody td {
+  padding: 1rem 1.25rem;
+  border-bottom-color: #e9eff5;
+  vertical-align: middle;
+}
+
+.facility-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.facility-table tbody tr:hover {
+  background: rgba(230, 247, 249, 0.45);
+}
+
+.facility-name {
+  font-weight: 700;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  color: #496174;
+  background: #eef3f7;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.status-select {
+  min-width: 150px;
+  color: #176b57;
+  background-color: #f1fbf7;
+  border-color: #bce9d9;
+  font-weight: 650;
+}
+
+.status-select.status-paused {
+  color: #a33b32;
+  background-color: #fff3f1;
+  border-color: #f2c4bf;
+}
+
+.status-select.status-maintenance {
+  color: #9a6700;
+  background-color: #fff9e8;
+  border-color: #f2d58b;
+}
+
+.form-actions {
+  background: #f8fbfd;
+  border-top: 1px solid var(--line);
+}
+
+.action-button {
+  min-width: 112px;
+  color: #fff;
+  background: #1769aa;
+  border-color: #1769aa;
+  font-weight: 700;
+}
+
+.action-button:hover,
+.action-button:focus-visible {
+  color: #fff;
+  background: #0f568e;
+  border-color: #0f568e;
+}
+
+.action-button:focus-visible {
+  box-shadow: 0 0 0 0.2rem rgba(23, 105, 170, 0.22);
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .category-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .facility-table thead {
+    display: none;
+  }
+
+  .facility-table,
+  .facility-table tbody,
+  .facility-table tr,
+  .facility-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .facility-table tbody tr {
+    padding: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .facility-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .facility-table tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    border: 0;
+    text-align: right;
+  }
+
+  .facility-table tbody td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 650;
+  }
+
+  .status-select {
+    width: auto;
+    min-width: 145px;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+}
